@@ -1,0 +1,39 @@
+<div class="container">
+  <h2>Welcome, <%= @user.name %></h2>
+  <h4>New Secret</h4>
+  <form action="/secrets" method="post">
+    <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+    <div class="form-group">
+      <textarea id="content" name="content" rows="8" cols="80"></textarea>
+    </div>
+    <button type="submit" class="btn btn-default">Create Secret</button>
+  </form>
+  <% if flash[:notice] %>
+    <% flash[:notice].each do |note| %>
+      <p><%= note %></p>
+    <% end %>
+  <% end %>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6">
+        <h4>Secrets</h4>
+        <% if @secrets %>
+          <% @secrets.each do |secret| %>
+            <p><%= secret.content %></p>
+              <% if current_user == secret.user %>
+                <a class="btn btn-default" href="/secrets/<%= secret.id %>" data-method="delete" role="button">Delete Secret</a>
+              <% end %>
+          <% end %>
+        <% end %>
+      </div>
+      <div class="col-md-6">
+        <h4>Secrets Liked</h4>
+        <% if @secrets_liked %>
+          <% @secrets_liked.each do |secret_liked| %>
+            <p><%= secret_liked.content %></p>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
